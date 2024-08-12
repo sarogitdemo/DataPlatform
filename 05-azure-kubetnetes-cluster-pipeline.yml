@@ -11,13 +11,13 @@ steps:
 - task: DownloadSecureFile@1
   name:publickey
   inputs:
-    secureFile: 'azure_rsa_pub'
+    secureFile:'azure-rsa.pub'
 
 - task: TerraformCLI@2
   inputs:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
-    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_pub_key=$(publickey.SecureFilePath)'
+    #commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_pub_key=$(publickey.secureFilePath)'
     backendType: 'azurerm'
     backendServiceArm: 'azure-resource-manager-service-connection'
     ensureBackend: true
@@ -26,4 +26,11 @@ steps:
     backendAzureRmStorageAccountName: 'storageacctsaisaro'
     backendAzureRmContainerName: 'saisaro'
     backendAzureRmKey: 'kubernetees-terraform.tfstate'
+    allowTelemetryCollection: true
+
+- task: TerraformCLI@2
+  inputs:
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_pub_key=$(publickey.secureFilePath)'
     allowTelemetryCollection: true
