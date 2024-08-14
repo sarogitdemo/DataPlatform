@@ -21,7 +21,7 @@ steps:
     backendAzureRmSubscriptionId: 'f77e322f-5c3f-4b70-9580-1e6bca9583ba'
     ensureBackend: true
     backendAzureRmResourceGroupName: 'dof-terraform-backend-rg'
-    backendAzureRmResourceGroupLocation: 'westeurope'
+    backendAzureRmResourceGroupLocation: 'uksouth'
     backendAzureRmStorageAccountName: 'saisarobackendtestabc'
     backendAzureRmContainerName: 'saisarocontainer'
     backendAzureRmKey: 'kubernetes-dev.tfstate'
