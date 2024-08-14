@@ -1,35 +1,40 @@
-
 trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
+- script: echo K8S Terraform Azure!
   displayName: 'Run a one-line script'
 - task: DownloadSecureFile@1
   name: publickey
   inputs:
     secureFile: 'azure_rsa.pub'
-- task: TerraformCLI@2
+
+- task: TerraformCLI@0
   inputs:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
+    # commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
     backendType: 'azurerm'
     backendServiceArm: 'azure-resource-manager-service-connection'
-    backendAzureRmSubscriptionId: 'f77e322f-5c3f-4b70-9580-1e6bca9583ba'
     ensureBackend: true
-    backendAzureRmResourceGroupName: 'dof-terraform-backend-rg'
-    backendAzureRmResourceGroupLocation: 'uksouth'
-    backendAzureRmStorageAccountName: 'saisarobackendtestabc'
-    backendAzureRmContainerName: 'saisarocontainer'
+    backendAzureRmResourceGroupName: 'terraform-backend-rg'
+    backendAzureRmResourceGroupLocation: 'westeurope'
+    backendAzureRmStorageAccountName: 'storageacctsaroxyz'
+    backendAzureRmContainerName: 'storageacctsarocontainer'
     backendAzureRmKey: 'kubernetes-dev.tfstate'
-    allowTelemetryCollection: true
 
-- task: TerraformCLI@2
+- task: TerraformCLI@0
   inputs:
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
-    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_pub_key=$(publickey.secureFilePath)'
-    allowTelemetryCollection: true
+    environmentServiceName: 'azure-resource-manager-service-connection'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'destroy'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
+    environmentServiceName: 'azure-resource-manager-service-connection'
