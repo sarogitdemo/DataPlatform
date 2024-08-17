@@ -18,7 +18,6 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
     backendType: 'azurerm'
     backendServiceArm: 'azure-resource-manager-service-connection'
-    backendAzureRmSubscriptionId: 'f77e322f-5c3f-4b70-9580-1e6bca9583ba'
     ensureBackend: true
     backendAzureRmResourceGroupName: 'terraform-backend-rg1'
     backendAzureRmResourceGroupLocation: 'uksouth'
