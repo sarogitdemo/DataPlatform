@@ -30,4 +30,17 @@ stages:
         targetPath: '$(Build.ArtifactStagingDirectory)'
         artifact: 'buildarti_demo'
         publishLocation: 'pipeline'
+   - job: SecondJob
+     steps:
+     - bash: echo SecondJob Firststep
+    
+ - stage: DevDeploy
+   variables:
+    environment: Dev
+   dependsOn: Build
+   jobs:
+   - job: DeployDev
+     steps:
+     - bash: echo $(environment) Deploy first step 
 
+ 
