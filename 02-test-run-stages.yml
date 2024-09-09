@@ -25,12 +25,9 @@ stages:
      - bash: echo $(Build.ArtifactStagingDirectory)
      - bash: ls -R $(Build.ArtifactStagingDirectory)
 
-     - task: CopyFiles@2
+     - task: PublishPipelineArtifact@1
        inputs:
-         SourceFolder: '$(System.DefaultWorkingDirectory)'
-         Contents: |
-           **/*.yaml
-           **/*.tf
-         TargetFolder: '$(Build.ArtifactStagingDirectory)'
-     - bash: ls -R $(Build.ArtifactStagingDirectory)
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+        artifact: 'buildarti_demo'
+        publishLocation: 'pipeline'
 
